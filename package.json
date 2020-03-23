@@ -2,10 +2,15 @@
   "name": "deeds",
   "version": "1.0.0",
   "description": "A tool to generate typed action creators given a set of reducers.",
-  "main": "bin/index.js",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "typings": "index.d.ts",
   "scripts": {
     "lint": "eslint --ext .ts .",
-    "build": "tsc"
+    "pretest": "npm run build",
+    "test": "jest",
+    "typecheck": "tsc --project tsconfig.tests.json",
+    "build": "tsc --project tsconfig.build.json"
   },
   "repository": {
     "type": "git",
@@ -22,6 +27,7 @@
   },
   "homepage": "https://github.com/Mossop/deeds#readme",
   "devDependencies": {
+    "@types/jest": "^25.1.4",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/eslint-plugin-tslint": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
@@ -29,7 +35,14 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-mossop": "Mossop/eslint-plugin-mossop#1.0.1",
     "eslint-plugin-react": "^7.19.0",
+    "execa": "^4.0.0",
+    "jest": "^25.1.0",
+    "spec.ts": "^1.1.3",
+    "ts-jest": "^25.2.1",
     "tslint": "^6.1.0",
     "typescript": "^3.8.3"
+  },
+  "optionalDependencies": {
+    "immer": ">=5.0.0"
   }
 }

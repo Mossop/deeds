@@ -5,7 +5,6 @@
     "target": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "Node",
-    "allowJs": true,
     "noEmit": true,
 
     "noFallthroughCasesInSwitch": true,
@@ -18,8 +17,7 @@
     "strictNullChecks": true
   },
   "include": [
-    "**/*.ts",
-    "**/*.js"
+    "tests/*.types.ts"
   ],
   "exclude": [
     "node_modules"

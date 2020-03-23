@@ -5,8 +5,8 @@
     "target": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "Node",
-    "allowJs": true,
-    "noEmit": true,
+    "outDir": "bin",
+    "declaration": true,
 
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
@@ -18,8 +18,7 @@
     "strictNullChecks": true
   },
   "include": [
-    "**/*.ts",
-    "**/*.js"
+    "src/**/*.ts",
   ],
   "exclude": [
     "node_modules"
