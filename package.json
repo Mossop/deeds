@@ -1,0 +1,35 @@
+{
+  "name": "deeds",
+  "version": "1.0.0",
+  "description": "A tool to generate typed action creators given a set of reducers.",
+  "main": "bin/index.js",
+  "scripts": {
+    "lint": "eslint --ext .ts .",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mossop/deeds.git"
+  },
+  "keywords": [
+    "redux",
+    "typescript"
+  ],
+  "author": "Dave Townsend <dtownsend@oxymoronical.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mossop/deeds/issues"
+  },
+  "homepage": "https://github.com/Mossop/deeds#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-mossop": "Mossop/eslint-plugin-mossop#1.0.1",
+    "eslint-plugin-react": "^7.19.0",
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3"
+  }
+}
