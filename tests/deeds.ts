@@ -1,4 +1,4 @@
-import { reducer as buildReducer, actions } from "..";
+import { rootReducer, actionCreators } from "..";
 
 let reducers = {
   add: (state: number, val: number): number => {
@@ -10,7 +10,7 @@ let reducers = {
 };
 
 test("actions", () => {
-  let { add, del } = actions(reducers);
+  let { add, del } = actionCreators(reducers);
 
   expect(add(1)).toEqual({
     type: "add",
@@ -34,7 +34,7 @@ test("actions", () => {
 });
 
 test("reducer", () => {
-  let reducer = buildReducer(reducers);
+  let reducer = rootReducer(reducers);
 
   expect(reducer(1, {
     type: "add",

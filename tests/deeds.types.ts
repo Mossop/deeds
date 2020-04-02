@@ -1,6 +1,7 @@
+import { createStore, Store } from "redux";
 import { assert, _ } from "spec.ts";
 
-import { reducer as buildReducer, actions as buildActions, Deed } from "..";
+import { rootReducer, actionCreators, Deed, ActionDeed } from "..";
 
 let reducers = {
   add: (state: number, val: number): number => {
@@ -18,17 +19,32 @@ let reducers = {
   }
 };
 
-let reducer = buildReducer(reducers);
-let actions = buildActions(reducers);
+let reducer = rootReducer(reducers);
+let actions = actionCreators(reducers);
 
 // Reducer should have correct type.
 assert(reducer, _ as (state: number, action: Deed) => number);
 
 // Action creators should have the correct types.
 interface ExpectedActions {
-  add: (value: number) => Deed;
-  del: (value: number) => Deed;
-  sum: (value: number[]) => Deed;
-  addMult: (a: number, b: number) => Deed;
+  add: (value: number) => ActionDeed<"add", [number]>;
+  del: (value: number) => ActionDeed<"del", [number]>;
+  sum: (value: number[]) => ActionDeed<"sum", [number[]]>;
+  addMult: (a: number, b: number) => ActionDeed<"addMult", [number, number]>;
 }
 assert(actions, _ as ExpectedActions);
+
+let store = createStore(reducer);
+assert(store, _ as Store<number, Deed>);
+assert(store.dispatch, _ as <A extends Deed>(action: A) => A);
+
+let typed = actions.add(5);
+assert(typed.type, "add");
+assert(typed.payload, _ as [number]);
+store.dispatch(typed);
+
+let untyped: Deed = actions.del(5);
+assert(untyped, _ as Deed);
+assert(untyped.type, _ as string);
+assert(untyped.payload, _ as unknown[]);
+store.dispatch(untyped);
