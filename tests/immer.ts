@@ -1,4 +1,4 @@
-import { rootReducer } from "../immer";
+import { baseReducer, actionCreators } from "../src/immer";
 
 interface State {
   value: number;
@@ -10,11 +10,35 @@ let reducers = {
   },
   del: (state: State, val: number): void => {
     state.value -= val;
-  }
+  },
 };
 
-test("reducer", () => {
-  let reducer = rootReducer(reducers);
+test("actions", (): void => {
+  let { add, del } = actionCreators(reducers);
+
+  expect(add(1)).toEqual({
+    type: "add",
+    payload: [1],
+  });
+
+  expect(add(5)).toEqual({
+    type: "add",
+    payload: [5],
+  });
+
+  expect(del(1)).toEqual({
+    type: "del",
+    payload: [1],
+  });
+
+  expect(del(5)).toEqual({
+    type: "del",
+    payload: [5],
+  });
+});
+
+test("reducer", (): void => {
+  let reducer = baseReducer(reducers);
 
   let state: State = {
     value: 1,

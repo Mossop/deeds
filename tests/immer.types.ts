@@ -1,32 +1,34 @@
-import { Immutable } from "immer";
+import { Draft } from "immer";
 import { assert, _ } from "spec.ts";
 
-import { rootReducer, actionCreators, Deed, ActionDeed, immutableReducers } from "../immer";
+import { reducer, baseReducer, actionCreators, Deed, ActionDeed } from "../src/immer";
 
 interface State {
-  value: number;
+  readonly value: number;
 }
 
 let reducers = {
-  add: (state: State, val: number): void => {
+  add: (state: Draft<State>, val: number): void => {
     state.value += val;
   },
-  del: (state: State, val: number): void => {
+  del: (state: Draft<State>, val: number): void => {
     state.value -= val;
   },
-  sum: (state: State, values: number[]): void => {
-    values.forEach((v: number) => state.value += v);
+  sum: (state: Draft<State>, values: number[]): void => {
+    values.forEach((v: number): number => state.value += v);
   },
-  addMult: (state: State, a: number, b: number): void => {
+  addMult: (state: Draft<State>, a: number, b: number): void => {
     state.value += a * b;
-  }
+  },
 };
 
-let reducer = rootReducer(reducers);
+let base = baseReducer(reducers);
+let main = reducer(reducers);
 let actions = actionCreators(reducers);
 
 // Reducer should have correct type.
-assert(reducer, _ as (state: Immutable<State>, action: Deed) => Immutable<State>);
+assert(base, _ as (state: State, action: Deed) => State);
+assert(main, _ as (state: State | undefined, action: Deed) => State);
 
 // Action creators should have the correct types.
 interface ExpectedActions {
@@ -36,13 +38,3 @@ interface ExpectedActions {
   addMult: (a: number, b: number) => ActionDeed<"addMult", [number, number]>;
 }
 assert(actions, _ as ExpectedActions);
-
-let immutable = immutableReducers(reducers);
-interface ImmutableReducers {
-  add: (state: Immutable<State>, val: number) => Immutable<State>;
-  del: (state: Immutable<State>, val: number) => Immutable<State>;
-  sum: (state: Immutable<State>, vals: number[]) => Immutable<State>;
-  addMult: (state: Immutable<State>, a: number, b: number) => Immutable<State>;
-}
-
-assert(immutable, _ as ImmutableReducers);

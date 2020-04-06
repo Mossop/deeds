@@ -1,7 +1,7 @@
 import { createStore, Store } from "redux";
 import { assert, _ } from "spec.ts";
 
-import { rootReducer, actionCreators, Deed, ActionDeed } from "..";
+import { baseReducer, actionCreators, reducer, Deed, ActionDeed } from "../src/deeds";
 
 let reducers = {
   add: (state: number, val: number): number => {
@@ -11,19 +11,21 @@ let reducers = {
     return state - val;
   },
   sum: (state: number, values: number[]): number => {
-    values.forEach((v: number) => state += v);
+    values.forEach((v: number): number => state += v);
     return state;
   },
   addMult: (state: number, a: number, b: number): number => {
     return state + a * b;
-  }
+  },
 };
 
-let reducer = rootReducer(reducers);
+let base = baseReducer(reducers);
+let main = reducer(reducers);
 let actions = actionCreators(reducers);
 
 // Reducer should have correct type.
-assert(reducer, _ as (state: number, action: Deed) => number);
+assert(base, _ as (state: number, action: Deed) => number);
+assert(main, _ as (state: number | undefined, action: Deed) => number);
 
 // Action creators should have the correct types.
 interface ExpectedActions {
@@ -34,7 +36,7 @@ interface ExpectedActions {
 }
 assert(actions, _ as ExpectedActions);
 
-let store = createStore(reducer);
+let store = createStore(main);
 assert(store, _ as Store<number, Deed>);
 assert(store.dispatch, _ as <A extends Deed>(action: A) => A);
 

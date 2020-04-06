@@ -1,4 +1,4 @@
-import { rootReducer, actionCreators } from "..";
+import { baseReducer, actionCreators } from "../src/deeds";
 
 let reducers = {
   add: (state: number, val: number): number => {
@@ -6,10 +6,10 @@ let reducers = {
   },
   del: (state: number, val: number): number => {
     return state - val;
-  }
+  },
 };
 
-test("actions", () => {
+test("actions", (): void => {
   let { add, del } = actionCreators(reducers);
 
   expect(add(1)).toEqual({
@@ -33,8 +33,8 @@ test("actions", () => {
   });
 });
 
-test("reducer", () => {
-  let reducer = rootReducer(reducers);
+test("reducer", (): void => {
+  let reducer = baseReducer(reducers);
 
   expect(reducer(1, {
     type: "add",
