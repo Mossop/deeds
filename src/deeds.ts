@@ -11,28 +11,33 @@ export interface ActionReducerMap<S = any> {
   [key: string]: ActionReducer<S>;
 }
 
+type ActionCreator<M, K extends keyof M> =
+  (...args: ActionReducerArgs<M[K]>) => ActionDeed<K, ActionReducerArgs<M[K]>>;
+
 export type ActionMap<M extends {}> = {
-  [K in keyof M]: (...args: ActionReducerArgs<M[K]>) => ActionDeed<K, ActionReducerArgs<M[K]>>;
+  [K in keyof M]: ActionCreator<M, K>;
 };
 
 /**
- * Creates an object of action creators. Each property of the returned object will match a property
- * of the passed reducers object and will be a function that takes the arguments the reducer
- * property uses excluding the initial store state argument and returns an action that can be
- * dispatched to the store.
+ * Creates an object of action creators. You must specify the generic type as the type of your
+ * reducers object, typically as `actionCreators<typeof reducers>()`. The type of each property of
+ * the returned object will match a property of the reducers object and will be a function that
+ * takes the arguments the reducer property uses excluding the initial store state argument and
+ * returns an action that can be dispatched to the store.
  */
-export function actionCreators<M extends ActionReducerMap>(reducers: M): ActionMap<M> {
-  let actions = {};
-  for (let key of Object.keys(reducers)) {
-    actions[key] = (...args: unknown[]): Deed => {
-      return {
-        type: key,
-        payload: args,
+export function actionCreators<M extends ActionReducerMap>(): ActionMap<M> {
+  let creators = new Proxy({}, {
+    get: function <K extends keyof M>(_target: {}, prop: K): ActionCreator<M, K> {
+      return (...args: ActionReducerArgs<M[K]>): ActionDeed<K, ActionReducerArgs<M[K]>> => {
+        return {
+          type: prop,
+          payload: args,
+        };
       };
-    };
-  }
+    },
+  });
 
-  return actions as ActionMap<M>;
+  return creators as ActionMap<M>;
 }
 
 /**

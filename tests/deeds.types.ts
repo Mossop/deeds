@@ -21,7 +21,7 @@ let reducers = {
 
 let base = baseReducer(reducers);
 let main = reducer(reducers);
-let actions = actionCreators(reducers);
+let actions = actionCreators<typeof reducers>();
 
 // Reducer should have correct type.
 assert(base, _ as (state: number, action: Deed) => number);

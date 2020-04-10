@@ -14,7 +14,7 @@ let reducers = {
 };
 
 test("actions", (): void => {
-  let { add, del } = actionCreators(reducers);
+  let { add, del } = actionCreators<typeof reducers>();
 
   expect(add(1)).toEqual({
     type: "add",

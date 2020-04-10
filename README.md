@@ -30,7 +30,7 @@ const reducers = {
 }
 
 const store = createStore(reducer(reducers), 1);
-const actions = actionCreators(reducers);
+const actions = actionCreators<typeof reducers>();
 
 store.dispatch(actions.add(5));
 // state is now 6.
@@ -68,7 +68,7 @@ const reducers = {
 }
 
 const store = createStore(reducer(reducers), { value: 1 });
-const actions = actionCreators(reducers);
+const actions = actionCreators<typeof reducers>();
 
 store.dispatch(actions.add(5));
 // state is now 6.
@@ -121,5 +121,5 @@ const store = createStore((state: number | undefined, action: Deed | InitializeA
 
   return reducer(state, action);
 });
-const actions = actionCreators(reducers);
+const actions = actionCreators<typeof reducers>();
 ```
