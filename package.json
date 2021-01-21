@@ -35,7 +35,7 @@
     "eslint-plugin-mossop": "Mossop/eslint-plugin-mossop#1.0.6",
     "eslint-plugin-react": "^7.19.0",
     "execa": "^4.0.0",
-    "immer": "^6.0.3",
+    "immer": "^8.0.1",
     "jest": "^25.1.0",
     "redux": "^4.0.5",
     "spec.ts": "^1.1.3",
